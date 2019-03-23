@@ -73,9 +73,9 @@ int main(void)
         close(fd_child[READ_END]);
         // Child write to parent
         printf("In Child: Writing to pipe 2 - Message is %s\n", child_write_msg);
-        write(fd_child[READ_END], child_write_msg, sizeof(child_write_msg));
+        write(fd_child[WRITE_END], child_write_msg, sizeof(child_write_msg));
         // Read Parent's Greeting
-        read(fd_parent[WRITE_END], child_read_msg, sizeof(child_read_msg));
+        read(fd_parent[READ_END], child_read_msg, sizeof(child_read_msg));
         printf("In child: Reading from pipe 1 - Message is %s\n", child_read_msg); 
     }
 
