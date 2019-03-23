@@ -15,10 +15,10 @@
 int main(void)
 {
     // Parent
-    char parent_write_msg[BUFFER_SIZE] = "Hello Child.";
+    char parent_write_msg[BUFFER_SIZE] = "Hello Child.\n";
     char parent_read_msg[BUFFER_SIZE];
     // Child
-    char child_write_msg[BUFFER_SIZE] = "Hello Parent.";
+    char child_write_msg[BUFFER_SIZE] = "Hello Parent.\n";
     char child_read_msg[BUFFER_SIZE];
     // Init pipe 
     int fd_parent[2];
@@ -60,23 +60,23 @@ int main(void)
         close(fd_parent[READ_END]);
         close(fd_child[WRITE_END]);
         // Write to the pipe
-        printf("In Parent: Writing to pipe 1 – Message is %s\n", parent_write_msg);
-        write(fd_parent[WRITE_END],parent_write_msg, sizeof(parent_write_msg));
-        // Read child's response
+        printf("Parent says: %s\n", parent_write_msg);
+        write(fd_parent[WRITE_END], parent_write_msg, sizeof(parent_write_msg));
+        // Read child's message
         read(fd_child[READ_END], parent_read_msg, sizeof(parent_read_msg));
-        printf("In Parent: Reading from pipe 2 – Message is %s\n", parent_read_msg);
+        printf("Parent hears childs response: %s\n", parent_read_msg);
 
     }
     else {
         // Child Process starts
         close(fd_parent[WRITE_END]);
         close(fd_child[READ_END]);
-        // Child write to parent
-        printf("In Child: Writing to pipe 2 - Message is %s\n", child_write_msg);
-        write(fd_child[WRITE_END], child_write_msg, sizeof(child_write_msg));
         // Read Parent's Greeting
         read(fd_parent[READ_END], child_read_msg, sizeof(child_read_msg));
-        printf("In child: Reading from pipe 1 - Message is %s\n", child_read_msg); 
+        printf("Child hears parents response: %s\n", child_read_msg);
+        // Child write to parent
+         printf("Child says: %s\n", child_write_msg);
+        write(fd_child[WRITE_END], child_write_msg, sizeof(child_write_msg)); 
     }
 
 
